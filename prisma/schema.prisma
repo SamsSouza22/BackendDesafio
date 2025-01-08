@@ -9,6 +9,25 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  password  String
+  cratedAt  DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  Post Post[] @relation("PostCreator")
+}
+
+model Post {
+  id       String @id @default(uuid())
+  authorid String
+  author   User   @relation("PostCreator", fields: [authorid], references: [id])
+  title    String
+  content  String @db.VarChar(300)
 }
