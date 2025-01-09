@@ -4,12 +4,18 @@ import fs from 'fs';
 import path from 'path';
 import { PORT } from './secrets.mjs';
 
+import { privateRouter, publicRouter } from './routes/router.mjs';
+import './routes/user-routes.mjs'; // Import user routes
+
 const server = express();
 const acessLogStream = fs.createWriteStream(path.join(process.cwd(),'logs', 'access.log'), { flags: 'a' });
 
 server.use(morgan('combined', { stream: acessLogStream }));
 server.use(morgan('dev'));
 server.use(express.json());
+server.use(publicRouter);
+server.use(privateRouter);
+
 
 server.use('*', (req, res) => { 
     res.status(404).send({message: 'Not found'});
