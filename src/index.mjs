@@ -1,5 +1,6 @@
 import express from 'express';
 import morgan from 'morgan';
+import cors from 'cors';
 import fs from 'fs';
 import path from 'path';
 import { PORT } from './secrets.mjs';
@@ -10,6 +11,7 @@ import './routes/user-routes.mjs'; // Import user routes
 const server = express();
 const acessLogStream = fs.createWriteStream(path.join(process.cwd(),'logs', 'access.log'), { flags: 'a' });
 
+server.use(cors());
 server.use(morgan('combined', { stream: acessLogStream }));
 server.use(morgan('dev'));
 server.use(express.json());
