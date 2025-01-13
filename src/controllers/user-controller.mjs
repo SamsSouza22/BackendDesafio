@@ -66,7 +66,7 @@ class UserController{
     }
 
     async getPosts(req, res){
-
+        
     }
 
     async createPost(req, res){
@@ -92,11 +92,44 @@ class UserController{
     }
 
     async updatePost(req, res){
+        const userId = req.logged_user.id;
+        const { id } = req.params;
+        const post = postSchema.parse(req.body);
 
+        try {
+            const postExists = await prismaClient.post.findFirst({where: {id, authorid: userId}});
+            if(!postExists){
+                return res.status(404).json({error: 'Post not found'});
+            }
+
+            const updatedPost = await prismaClient.post.update({
+                where: {id},
+                data: post
+            });
+
+            res.send(updatedPost);
+        } catch (error) {
+            console.log(error);
+            res.status(500).send({error: 'Could not update post'});
+        }
     }
 
     async deletePost(req, res){
-
+        const userId = req.logged_user.id;
+        const { id } = req.params;
+        
+        try {
+            const postExists = await prismaClient.post.findFirst({where: {id, authorid: userId}});
+            if(!postExists){
+                return res.status(404).json({error: 'Post not found'});
+            }
+            
+            await prismaClient.post.delete({where: {id}});
+            res.status(204).send("Post deleted");
+        } catch (error) {
+            console.log(error);
+            res.status(500).send({error: 'Could not delete post'});
+        }
     }
 }
 
