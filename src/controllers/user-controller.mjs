@@ -15,6 +15,11 @@ const authSchema = z.object({
     password: z.string().min(6)
 });
 
+const postSchema = z.object({
+    title: z.string().min(1),
+    content: z.string().min(1)
+});
+
 class UserController{
     async register(req, res){
         const { email} = req.body; 
@@ -60,7 +65,37 @@ class UserController{
         res.send({token});
     }
 
-    async post(req, res){
+    async getPosts(req, res){
+
+    }
+
+    async createPost(req, res){
+        const userId = req.logged_user.id;
+        const post = postSchema.parse(req.body);
+
+        try {
+            const newPost = await prismaClient.post.create({
+                data: {
+                    ...post,
+                    author: {
+                        connect: {
+                            id: userId
+                        }
+                    }
+                }
+            });
+
+            res.status(201).json({ message: "Post created", post: newPost });        } catch (error) {
+            console.log(error);
+            res.status(500).send({error: 'Internal server error'});
+        }
+    }
+
+    async updatePost(req, res){
+
+    }
+
+    async deletePost(req, res){
 
     }
 }

@@ -6,7 +6,7 @@ import path from 'path';
 import { PORT } from './secrets.mjs';
 
 import { privateRouter, publicRouter } from './routes/router.mjs';
-import './routes/user-routes.mjs'; // Import user routes
+import './routes/user-routes.mjs';
 
 const server = express();
 const acessLogStream = fs.createWriteStream(path.join(process.cwd(),'logs', 'access.log'), { flags: 'a' });
