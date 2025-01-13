@@ -52,3 +52,6 @@
 ::1 - - [13/Jan/2025:14:15:35 +0000] "PUT /posts/65f33311-ac63-4a5d-8ed2-cbc3e377e4b1 HTTP/1.1" 404 26 "-" "PostmanRuntime/7.43.0"
 ::1 - - [13/Jan/2025:14:16:49 +0000] "PUT /posts/65f33311-ac63-4a5d-8ed2-cbc3e377e4b1 HTTP/1.1" 200 145 "-" "PostmanRuntime/7.43.0"
 ::1 - - [13/Jan/2025:14:24:17 +0000] "DELETE /posts/65f33311-ac63-4a5d-8ed2-cbc3e377e4b1 HTTP/1.1" 204 - "-" "PostmanRuntime/7.43.0"
+::1 - - [13/Jan/2025:14:48:36 +0000] "GET /posts?page=1&perPage=2 HTTP/1.1" 500 31 "-" "PostmanRuntime/7.43.0"
+::1 - - [13/Jan/2025:14:49:30 +0000] "GET /posts?page=1&perPage=2 HTTP/1.1" 200 342 "-" "PostmanRuntime/7.43.0"
+::1 - - [13/Jan/2025:14:49:41 +0000] "GET /posts?page=2&perPage=2 HTTP/1.1" 200 342 "-" "PostmanRuntime/7.43.0"
