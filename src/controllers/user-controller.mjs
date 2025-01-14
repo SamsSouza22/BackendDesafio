@@ -46,7 +46,7 @@ class UserController {
         const newUser = { id: user.id, name: user.name, email: user.email };
         const token = jsonwebtoken.sign(newUser, JWT_SECRET);
 
-        res.send({ token });
+        res.send({ token, user: newUser });
     }
 
 }
