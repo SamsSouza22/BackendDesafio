@@ -13,7 +13,7 @@ const authSchema = z.object({
 
 const postSchema = z.object({
     title: z.string().min(1),
-    content: z.string().min(1)
+    content: z.string().min(1).max(300)
 });
 
 export { userSchema, authSchema, postSchema };

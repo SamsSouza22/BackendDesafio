@@ -12,6 +12,16 @@ class PostController {
             const posts = await prismaClient.post.findMany({
                 skip,
                 take,
+                orderBy: {
+                    updatedAt: 'desc'
+                },
+                include: {
+                    author: {
+                        select: {
+                            name: true
+                        },
+                    },
+                },
             });
             
             const totalPosts = await prismaClient.post.count();
