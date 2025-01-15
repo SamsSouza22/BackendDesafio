@@ -8,27 +8,31 @@ class UserController {
     async register(req, res) {
         const { email } = req.body;
         const user = userSchema.parse(req.body);
-
+    
         const userExists = await prismaClient.user.findUnique({ where: { email } });
-
+    
         if (userExists) {
-            return res.status(400).json({ error: 'User already exists' });
+          return res.status(400).json({ error: 'User already exists' });
         }
-
+    
         const salt = bcrypt.genSaltSync(10);
         const hashPassword = bcrypt.hashSync(user.password, salt);
-
+    
         const newUser = await prismaClient.user.create({
-            data: {
-                ...user,
-                password: hashPassword
-            }
+          data: {
+            ...user,
+            password: hashPassword,
+          },
         });
-
+    
+        const token = jsonwebtoken.sign({ id: newUser.id, email: newUser.email }, JWT_SECRET, {
+          expiresIn: '1h',
+        });
+    
         delete newUser.password;
-
-        res.send(newUser);
-    }
+    
+        res.status(201).json({ token, user: newUser });
+      }
 
     async login(req, res) {
         const { email, password } = req.body;
