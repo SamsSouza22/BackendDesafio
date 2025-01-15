@@ -15,7 +15,8 @@
   "type": "module",
   "main": "index.mjs",
   "scripts": {
-    "dev": "nodemon src/index.mjs"
+    "dev": "nodemon src/index.mjs",
+    "start": "node src/index.mjs"
   },
   "dependencies": {
     "@prisma/client": "^6.2.1",
