@@ -29,7 +29,7 @@ Este projeto foi desenvolvido utilizando Node.js, Express.js e Prisma, utilizand
     ```
     DATABASE_URL="your_database_url"
     JWT_SECRET="your_jwt_secret"
-    PORT=5555
+    PORT=9999
     ```
     
 
@@ -45,7 +45,7 @@ Este projeto foi desenvolvido utilizando Node.js, Express.js e Prisma, utilizand
     npm start
     ```
 
-    O servidor irá funcionar na url http://localhost:5555.
+    O servidor irá funcionar na url http://localhost:9999.
 
 ## Estrutura do projeto
 

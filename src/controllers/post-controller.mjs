@@ -1,6 +1,10 @@
 import prismaClient from '../utils/prismaClient.mjs';
 import { postSchema } from '../utils/schemas.mjs';
 
+import {GoogleGenerativeAI} from "@google/generative-ai"
+const genAI = new GoogleGenerativeAI("AIzaSyDgKZZlGW9Wld3ZKyDu_ZB07B-4q5TudOk");
+const model = genAI.getGenerativeModel({model: "gemini-1.5-flash"});
+
 class PostController {
     
     async getPosts(req, res) {
@@ -103,6 +107,22 @@ class PostController {
         } catch (error) {
             console.log(error);
             res.status(500).send({ error: 'Could not delete post' });
+        }
+    }
+
+    async suggestionsAI(req, res) {
+        const { prompt } = req.body;
+        const fullPrompt = `diga ideias interessantes para escrever em uma postagem de blog sobre o(s) tema(s): ${prompt}`;
+    
+        try {
+            const result = await model.generateContent(fullPrompt);
+            const response = result.response;
+            const text = response.text();
+    
+            res.status(200).json({ suggestion: text });
+        } catch (error) {
+            console.error('Error generating AI suggestions:', error);
+            res.status(500).json({ error: 'Could not generate AI suggestions' });
         }
     }
 }
