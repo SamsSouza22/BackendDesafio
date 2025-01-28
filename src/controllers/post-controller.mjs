@@ -112,9 +112,10 @@ class PostController {
 
     async suggestionsAI(req, res) {
         const { prompt } = req.body;
+        const fullPrompt = `diga ideias interessantes para escrever em uma postagem de blog sobre o(s) tema(s): ${prompt}`;
     
         try {
-            const result = await model.generateContent(prompt);
+            const result = await model.generateContent(fullPrompt);
             const response = result.response;
             const text = response.text();
     
