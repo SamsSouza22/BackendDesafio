@@ -113,13 +113,23 @@ class PostController {
     async suggestionsAI(req, res) {
         const { prompt } = req.body;
         const fullPrompt = `diga ideias interessantes para escrever em uma postagem de blog sobre o(s) tema(s): ${prompt}`;
-    
+
         try {
             const result = await model.generateContent(fullPrompt);
             const response = result.response;
-            const text = response.text();
-    
-            res.status(200).json({ suggestion: text });
+            const text = await response.text();
+
+            // Remove asterisks and format the text
+            const cleanText = text
+                .replace(/[*_~`]/g, '') // Remove *, _, ~, `
+                .replace(/#+\s/g, '') // Remove headings
+                .replace(/\[(.*?)\]\(.*?\)/g, '$1') // Remove links but keep the text
+                .replace(/!\[.*?\]\(.*?\)/g, '') // Remove images
+                .replace(/^\s*-\s*/gm, '') // Remove list bullets
+                .replace(/^\s*\d+\.\s*/gm, '') // Remove numbered list bullets
+                .replace(/\n{2,}/g, '\n\n'); // Replace multiple newlines with two newlines
+
+            res.status(200).json({ suggestion: cleanText });
         } catch (error) {
             console.error('Error generating AI suggestions:', error);
             res.status(500).json({ error: 'Could not generate AI suggestions' });
